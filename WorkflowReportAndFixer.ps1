@@ -10,17 +10,23 @@ function Get-Workflows($siteurl)
 
     foreach($web in $site.AllWebs)
         {
+        $web.name
         foreach($list in $web.Lists)
             {
+            $list.name
             foreach($wf in $list.WorkflowAssociations)
                 {
+                $wf.title
                 if ($true) # former: ($wf.Name -notlike "*Previous Version*")
                     {
                         foreach ($item in $list.Items)
                         {
                             foreach ($workflow in $item.Workflows)
                             {
-                            Write-Host ("INFO -- List: {0}, item {1}, workflow status: {2}, workflow started: {3}" -f $spWeb.Lists[$i].Title, $item.Title, $workflow.InternalState, $workflow.Created.ToLocalTime())  -BackgroundColor Black -ForegroundColor Yellow
+                            if($workflow.InternalState -notlike "Completeddd") {
+                                #Write-Host $item.Web, $item.FirstUniqueAncestor; $item.Title; $workflow.InternalState;" #$workflow.Created.ToLocalTime() 
+                            Write-Host ("itemweb: {0}, itemtitle {1}, firstuniqueancestor: {2}, internalstate: {3}" -f $item.Web, $item.Title, $item.FirstUniqueAncestorSecurableObject, $workflow.InternalState) -ForegroundColor Yellow
+                                }
                             }
                         }
 
@@ -38,3 +44,8 @@ function Get-Workflows($siteurl)
 
 Get-Workflows #| Export-csv C:\workflows.csv
 #$site.Dispose()
+
+
+
+$item.File
+write-host $item.FirstUniqueAncestor
